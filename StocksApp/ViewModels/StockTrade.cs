@@ -1,5 +1,5 @@
-﻿namespace Entities
-{
+﻿namespace StocksApp.ViewModels
+{ 
     public class StockTrade
     {
         public string? StockSymbol { get; set; }

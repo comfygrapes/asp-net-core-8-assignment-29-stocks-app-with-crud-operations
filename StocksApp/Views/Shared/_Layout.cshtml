@@ -10,23 +10,33 @@
 </head>
 <body>
     <div class="container">
-        <div class="page-content">
-            <div class="margin-bottom">
-                <div class="flex">
-                    <div class="flex-1" id="app-title-div">
-                        <h1 class="app-title">
-                            <i class="fa-solid fa-money-bill-trend-up"></i>
-                            Stocks
-                        </h1>
-                    </div>
-                    <div class="flex-1">
-                        Login
-                    </div>
-                </div>
+        <div class="flex mt mb">
+            <div class="flex-1" id="app-title-div">
+                <h1 class="app-title">
+                    <i class="fa-solid fa-money-bill-trend-up"></i>
+                    Stocks
+                </h1>
             </div>
-
-            @RenderBody()
+            <div class="flex text-right" style="align-items: center;">
+                <input type="search" class="search-text" placeholder="Search Stocks"/>
+                <a href="#" style="margin-left: 5px; margin-right: 25px;">
+                    <i class="fa-solid fa-gear" style="color: black;"></i>
+                </a>
+                <button class="button login-button button-blue-back">Login</button>
+            </div>
         </div>
+        <div class="navbar flex">
+            <div class="flex">
+                <a href="/Trade/Index" class="link-hover @(ViewBag.ActivePage != null && ViewBag.ActivePage == "Trade/Index" ? "nav-active" : "")" style="text-decoration: none; color: #0349A3;">Trade</a>
+                <div style="margin: 0 5px;"></div>
+                <a href="/Trade/Orders" class="link-hover @(ViewBag.ActivePage != null && ViewBag.ActivePage == "Trade/Orders" ? "nav-active" : "")" style="text-decoration: none; color: #0349A3;">Orders</a>
+            </div>
+        </div>
+        <div class="flex ml mt">
+            <p class="text-grey">Stocks <i class="fa-solid fa-caret-right"></i> @ViewBag.Title</p>
+        </div>
+
+        @RenderBody()
     </div>
 </body>
 </html>

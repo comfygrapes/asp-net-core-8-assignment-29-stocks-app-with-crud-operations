@@ -1,18 +1,40 @@
-﻿@model Entities.StockTrade
+﻿@model StockTrade
 
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Microsoft Corp";
+    ViewData["ActivePage"] = "Trade/Index";
 }
 
 <input type="hidden" id="stockSymbol" value="@Model.StockSymbol" />
 
 <div class="box trading-panel">
     <div class="flex trading-panel-flex">
-        <div id="stock-price-panel">
-            <div class="stock">
+        <div id="stock-price-panel" style="display: flex; align-items: center;">
+            <div class="flex flex-direction-vertical">
                 <h3 class="text-blue">@Model.StockName (@Model.StockSymbol)</h3>
                 <h1><small class="text-grey">$</small> <span class="price">@Model.Price.ToString("N")</span></h1>
             </div>
+        </div>
+        <div class="flex border-left"></div>
+        <div class="flex flex-direction-vertical margin-auto" style="align-items: center; justify-content: center; padding: 25px 0">
+            <div class="flex-1">
+                <h3 class="text-grey">New Order</h3>
+            </div>
+            <form id="orderForm" method="post" action="/Trade/BuyOrder">
+                <div class="flex-1 mt mb">
+                    <div>
+                        <label for="Quantity">Quantity:</label>
+                    </div>
+                    <input type="number" id="Quantity" name="Quantity" value="@Model.Quantity" class="form-input" style="width: 100px"/>
+                </div>
+                <div class="flex-1 mt" style="margin-top: 15px">
+                    <input type="hidden" name="StockSymbol" value="@Model.StockSymbol" />
+                    <input type="hidden" name="StockName" value="@Model.StockName" />
+                    <input type="hidden" name="Price" value="@Model.Price" />
+                    <button type="button" class="button button-red-back" onclick="createOrder('Sell')"><i class="fa-solid fa-arrow-down"></i> Sell</button>
+                    <button type="button" class="button button-green-back" onclick="createOrder('Buy')"><i class="fa-solid fa-arrow-up"></i> Buy</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -22,6 +44,20 @@
     const stockSymbol = stockSymbolElement.value;
     const priceElement = document.querySelector('.price');
     const socket = new WebSocket('wss://ws.finnhub.io?token=@ViewBag.ApiKey')
+
+    function createOrder(orderType)
+    {
+        var form = document.getElementById('orderForm');
+        if (orderType === 'Buy')
+        {
+            form.action = '/Trade/BuyOrder';
+        }
+        else if (orderType === 'Sell')
+        {
+            form.action = '/Trade/SellOrder';
+        }
+        form.submit();
+    }
 
     // Connection opened -> Subscribe
     socket.addEventListener('open', function (event) {
