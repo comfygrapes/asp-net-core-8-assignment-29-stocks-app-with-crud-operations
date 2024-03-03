@@ -3,16 +3,17 @@ using Microsoft.Extensions.Options;
 using Services;
 using Entities;
 using StocksApp.Options;
+using ServiceContracts;
 
 namespace StocksApp.Controllers
 {
     public class TradeController : Controller
     {
-        private readonly FinnhubService _finnhubService;
+        private readonly IFinnhubService _finnhubService;
         private readonly IOptions<TradingOptions> _tradingOptions;
         private readonly IConfiguration _configuration;
 
-        public TradeController(FinnhubService myService, IOptions<TradingOptions> tradingOptions, IConfiguration configuration)
+        public TradeController(IFinnhubService myService, IOptions<TradingOptions> tradingOptions, IConfiguration configuration)
         {
             _finnhubService = myService;
             _tradingOptions = tradingOptions;
